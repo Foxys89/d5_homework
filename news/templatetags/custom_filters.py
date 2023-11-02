@@ -7,5 +7,5 @@ register = template.Library()
 
 @register.filter(name='censor')
 def censor(value):
-    censored = profanity.censor(value, '$')
+    censored = profanity.censor(value, '*')
     return censored
