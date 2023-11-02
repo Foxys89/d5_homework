@@ -1,0 +1,9 @@
+asgiref            3.7.2
+backports.zoneinfo 0.2.1
+better-profanity   0.7.0
+Django             4.2.6
+pip                19.2.3
+setuptools         41.2.0
+sqlparse           0.4.4
+typing-extensions  4.8.0
+tzdata             2023.3
