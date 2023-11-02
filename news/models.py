@@ -13,11 +13,17 @@ class Author(models.Model):
         self.user_rating = ap_rating * 3 + aucom_rating + comm_rating
         self.save()
 
+    def __str__(self):
+        return self.user_author.username
+
 
 
 class Category(models.Model):
     category_name = models.CharField(max_length = 255,
                                      unique = True)
+
+    def __str__(self):
+        return self.category_name
 
 
 class Post(models.Model):
@@ -48,6 +54,9 @@ class Post(models.Model):
     def preview(self):
         return f'{self.post_text[:124]}...'
 
+    def __str__(self):
+        return f'{self.post_name}: {self.preview()}'
+
 
 class PostCategory(models.Model):
     post = models.ForeignKey('Post', on_delete = models.CASCADE)
@@ -68,3 +77,6 @@ class Comment(models.Model):
     def dislike(self):
         self.comment_rating -= 1
         self.save()
+
+    def __str__(self):
+        return self.comment_user.username
