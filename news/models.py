@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.urls import reverse
 
 class Author(models.Model):
     user_author = models.OneToOneField(User, on_delete = models.CASCADE)
@@ -33,15 +34,15 @@ class Post(models.Model):
         (article, 'Статья'),
         (news, 'Новость')
         ]
-    post_author = models.ForeignKey('Author', on_delete = models.CASCADE)
+    post_author = models.ForeignKey('Author', on_delete = models.CASCADE, verbose_name='Автор')
     post_type = models.CharField(max_length = 2,
                                  choices = POST_TYPES,
-                                 default = news)
-    post_time = models.DateTimeField(auto_now_add = True)
-    post_category = models.ManyToManyField('Category', through = 'PostCategory')
-    post_name = models.CharField(max_length = 255)
-    post_text = models.TextField()
-    post_rating = models.IntegerField(default = 0)
+                                 default = news, verbose_name='Тип')
+    post_time = models.DateTimeField(auto_now_add = True, verbose_name='Дата создания')
+    post_category = models.ManyToManyField('Category', through = 'PostCategory', verbose_name='Категория')
+    post_name = models.CharField(max_length = 255, verbose_name='Заголовок')
+    post_text = models.TextField(verbose_name='Содержание публикации')
+    post_rating = models.IntegerField(default = 0, verbose_name='Рейтинг статьи')
 
     def like(self):
         self.post_rating += 1
@@ -56,6 +57,9 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.post_name}: {self.preview()}'
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[int(self.pk)])
 
 
 class PostCategory(models.Model):

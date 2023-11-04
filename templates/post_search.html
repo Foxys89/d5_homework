@@ -5,12 +5,17 @@
 {% load custom_tags %}
 
 {% block title %}
-Публикации
+Поиск публикаций
 {% endblock title %}
 
 {% block content %}
-    <h1>Все публикации</h1>
-    <h3>Публикаций: {{ posts | length }}</h3>
+    <h1>Поиск публикаций</h1>
+    <h3>Новостей: {{ posts | length }}</h3>
+
+   <form action="" method="get">
+       {{ filterset.form.as_p }}
+       <input type="submit" value="Найти" />
+   </form>
 
     <hr>
     {% if posts %}
@@ -45,10 +50,10 @@
     {{ page_obj.number }}
 
     {% if page_obj.has_next %}
-       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
        {% if paginator.num_pages != page_obj.next_page_number %}
            ...
-           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
        {% endif %}
     {% endif %}
 {% endblock content %}
